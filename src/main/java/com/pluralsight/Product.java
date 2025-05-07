@@ -1,46 +1,46 @@
 package com.pluralsight;
 
 public class Product {
-    private int productId;
-    private String productName;
-    private double productDescription;
+    private static String productId;
+    private String productDescription;
+    private double productPrice;
 
-    public Product(int productId, String productName, double productDescription) {
+    public Product( String productId, String productDescription, double productPrice) {
         this.productId = productId;
-        this.productName = productName;
         this.productDescription = productDescription;
+        this.productPrice = productPrice;
     }
 
-    public int getProductId() {
+    public static String getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(String productId) {
         this.productId = productId;
     }
 
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public double getProductDescription() {
+    public String getProductDescription() {
         return productDescription;
     }
 
-    public void setProductDescription(double productDescription) {
+    public void setProductDescription(String productDescription) {
         this.productDescription = productDescription;
+    }
+
+    public double getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(double productPrice) {
+        this.productPrice = productPrice;
     }
 
     @Override
     public String toString() {
         return "Product{" +
                 "productId=" + productId +
-                ", productName='" + productName + '\'' +
-                ", productDescription=" + productDescription +
+                ", productDescription='" + productDescription + '\'' +
+                ", productPrice=" + productPrice +
                 '}';
     }
 }

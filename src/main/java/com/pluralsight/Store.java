@@ -3,8 +3,11 @@ package com.pluralsight;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import static java.lang.Integer.parseInt;
 
 public class Store {
 
@@ -37,7 +40,7 @@ public class Store {
                     displayProducts(inventory, cart, scanner);
                     break;
                 case 2:
-                    displayCart(cart, scanner, totalAmount);
+//                    displayCart(cart, scanner, totalAmount);
                     break;
                 case 3:
                     System.out.println("Thank you for shopping with us!");
@@ -52,21 +55,20 @@ public class Store {
     public static void loadInventory(String fileName, ArrayList<Product> inventory) {
         // This method should read a CSV file with product information and
         try {
-            BufferedReader br = new BufferedReader(new FileReader( fileName));
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split("\\|");
-                int productId = Integer.parseInt(parts[0]);
-                String productDescription = parts[1];
-                double productPrice = Double.parseDouble(parts[3]);
-                inventory.add(new Product(productId, productDescription, productPrice));
-
+                if (parts.length >= 2) {
+                    String productId = parts[0];
+                    String productDescription = parts[1];
+                    double productPrice = Double.parseDouble(parts[2]);
+                    inventory.add(new Product(productId, productDescription, productPrice));
+                }
             }
-
             br.close();
-
-        } catch (Exception e){
-            System.err.println("Error reading file: " + fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         // populate the inventory ArrayList with com.pluralsight.Product objects. Each line
@@ -80,16 +82,19 @@ public class Store {
 
     public static void displayProducts(ArrayList<Product> inventory, ArrayList<Product> cart, Scanner scanner) {
         // This method should display a list of products from the inventory,
-        for (Product product : inventory){
+        String id = scanner.nextLine();
+        for (Product product : inventory) {
             System.out.printf("Add items to cart.");
             scanner.nextLine();
             System.out.printf("Please enter a product id: ");
             scanner.nextLine();
-            if(product.getProductId() = product){
+            if (Product.getProductId() == id) {
+                System.out.printf(String.valueOf((product)));
 
             }
-            System.out.printf(String.valueOf(product));
+            return;
         }
+
 
         // and prompt the user to add items to their cart. The method should
         // prompt the user to enter the ID of the product they want to add to
@@ -99,11 +104,31 @@ public class Store {
 
     public static void displayCart(ArrayList<Product> cart, Scanner scanner, double totalAmount) {
         // This method should display the items in the cart ArrayList, along
+        System.out.printf("Enter the product ID of the item you want to remove: ");
+        boolean removed = false;
+        for (int i = 0; i < cart.size(); i++) {
+            if (Boolean.parseBoolean(cart.remove(i).getProductId())) {
+                cart.remove(i);
+                removed = true;
+                System.out.printf("Item removed from cart.");
+                break;
+            }
+            totalAmount = 0;
+            
+
+//        for (Product product : cart){
+//            System.out.printf(String.valueOf(product));
+//            if (product.getProductId()){
+//                System.out.printf(String.valueOf((product)));
+
+        }
+
+    }
         // with the total cost of all items in the cart. The method should
         // prompt the user to remove items from their cart by entering the ID
         // of the product they want to remove. The method should update the cart ArrayList and totalAmount
         // variable accordingly.
-    }
+
 
     public static void checkOut(ArrayList<Product> cart, double totalAmount) {
         // This method should calculate the total cost of all items in the cart,
@@ -117,7 +142,8 @@ public class Store {
         // the specified ID, and return the corresponding com.pluralsight.Product object. If
         // no product with the specified ID is found, the method should return
         // null.
-        return 0;
+
     }
+
 }
 
