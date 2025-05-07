@@ -1,5 +1,8 @@
 package com.pluralsight;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -48,6 +51,24 @@ public class Store {
 
     public static void loadInventory(String fileName, ArrayList<Product> inventory) {
         // This method should read a CSV file with product information and
+        try {
+            BufferedReader br = new BufferedReader(new FileReader( fileName));
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("\\|");
+                int productId = Integer.parseInt(parts[0]);
+                String productDescription = parts[1];
+                double productPrice = Double.parseDouble(parts[3]);
+                inventory.add(new Product(productId, productDescription, productPrice));
+
+            }
+
+            br.close();
+
+        } catch (Exception e){
+            System.err.println("Error reading file: " + fileName);
+        }
+
         // populate the inventory ArrayList with com.pluralsight.Product objects. Each line
         // of the CSV file contains product information in the following format:
         //
@@ -59,6 +80,17 @@ public class Store {
 
     public static void displayProducts(ArrayList<Product> inventory, ArrayList<Product> cart, Scanner scanner) {
         // This method should display a list of products from the inventory,
+        for (Product product : inventory){
+            System.out.printf("Add items to cart.");
+            scanner.nextLine();
+            System.out.printf("Please enter a product id: ");
+            scanner.nextLine();
+            if(product.getProductId() = product){
+
+            }
+            System.out.printf(String.valueOf(product));
+        }
+
         // and prompt the user to add items to their cart. The method should
         // prompt the user to enter the ID of the product they want to add to
         // their cart. The method should
@@ -85,6 +117,7 @@ public class Store {
         // the specified ID, and return the corresponding com.pluralsight.Product object. If
         // no product with the specified ID is found, the method should return
         // null.
+        return 0;
     }
 }
 
