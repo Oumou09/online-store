@@ -162,11 +162,7 @@ public class Store {
 
             }
 
-
-
         }
-
-
     public static void checkOut(ArrayList<Product> cart, double totalAmount) {
         Scanner scanner = new Scanner(System.in);
         if (cart.isEmpty()) {
@@ -212,12 +208,14 @@ public class Store {
         // if they confirm.
 
    public static Product findProductById(String id, ArrayList<Product> inventory) {
-       // This method should search the inventory ArrayList for a product with
-       // the specified ID, and return the corresponding com.pluralsight.Product object. If
-        // no product with the specified ID is found, the method should return
-        // null.
-
+       for (Product product : inventory) {
+           if (product.getProductId().equalsIgnoreCase(id)) {
+               return product;
+           }
+       }
+       return null; 
    }
+
 
 }
 
