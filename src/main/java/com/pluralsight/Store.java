@@ -85,84 +85,71 @@ public class Store {
 
     public static void displayProducts(ArrayList<Product> inventory, ArrayList<Product> cart, Scanner scanner) {
         // This method should display a list of products from the inventory,
-        String id = scanner.nextLine();
-        String productId = scanner.next();
-        String productDescription = scanner.next();
-        double productPrice = Double.parseDouble(scanner.next());
-        Product newProduct = new Product(productId, productDescription, productPrice);
-        inventory.add(newProduct);
+        while (true) {
+            System.out.println("1. Add product to cart");
+            System.out.println("2. Go back");
+            System.out.print("Enter your choice: ");
 
-        int choice = 0;
-        choice = scanner.nextInt();
-        scanner.nextLine();
-        while (choice != 2) {
-            System.out.println("1. to add items to cart");
-            System.out.println("2. to go back home.");
-            try {
-                choice = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid Input");
-                continue;
-            }
-            switch (choice) {
-                case 1:
-                    System.out.println("Please enter a product id: ");
-                    scanner.nextLine();
-                    for (Product product : inventory) {
-                        if (Product.getProductId().equals(id)) {
-                            cart.add(product);
-                            System.out.printf("Added to cart: " + product);
-                            break;
-                        }
-                    }
+            String input = scanner.nextLine();
 
-                case 2:
-                    System.out.println("Returning Home");
-                    break;
-
-
-                default: {
-                    System.out.println("Invalid Input");
-
-                }
+            if (input.equals("2")) {
                 break;
+            } else if (input.equals("1")) {
+                System.out.print("Enter product ID to add to cart: ");
+                String id = scanner.nextLine();
 
-
+                Product found = findProductById(id, inventory);
+                if (found != null) {
+                    cart.add(found);
+                    System.out.println("Added to cart: " + found);
+                } else {
+                    System.out.println("Product not found.");
+                }
+            } else {
+                System.out.println("Invalid choice.");
             }
-            scanner.close();
 
-            // and prompt the user to add items to their cart. The method should
-            // prompt the user to enter the ID of the product they want to add to
-            // their cart. The method should
-            // add the selected product to the cart ArrayList.
+            System.out.println("3. Checkout");
+            System.out.println("4. Exit");
         }
     }
 
+
     public static void displayCart(ArrayList<Product> cart, Scanner scanner, double totalAmount){
             // This method should display the items in the cart ArrayList, along
-            System.out.println("Enter the product ID of the item you want to remove: ");
-            boolean removed = false;
-            for (int i = 0; i < cart.size(); i++) {
-                if (Boolean.parseBoolean(cart.remove(i).getProductId())) {
-                    cart.remove(i);
-                    removed = true;
-                    System.out.println("Item removed from cart.");
+        totalAmount = 0;
+        System.out.println("===== Your Cart =====");
+        for (Product product : cart) {
+            System.out.println(product);
+            totalAmount += product.getProductPrice();
+        }
+        System.out.printf("Total Amount: $%.2f\n", totalAmount);
+
+        System.out.print("Enter the product ID to remove from cart (or press Enter to skip): ");
+        String idToRemove = scanner.nextLine().trim();
+
+        if (!idToRemove.isEmpty()) {
+            Product toRemove = null;
+            for (Product product : cart) {
+                if (product.getProductId().equalsIgnoreCase(idToRemove)) {
+                    toRemove = product;
                     break;
                 }
-                Double productTotal;
-                productTotal = Double.parseDouble(scanner.next());
-                totalAmount = 0;
-                totalAmount = productTotal++;
-
+            }
+            if (toRemove != null) {
+                cart.remove(toRemove);
+                System.out.println("Removed: " + toRemove);
+            } else {
+                System.out.println("Product ID not found in cart.");
+            }
+        }
+    }
 
 //        for (Product product : cart){
 //            System.out.printf(String.valueOf(product));
 //            if (product.getProductId()){
 //                System.out.printf(String.valueOf((product)));
 
-            }
-
-        }
     public static void checkOut(ArrayList<Product> cart, double totalAmount) {
         Scanner scanner = new Scanner(System.in);
         if (cart.isEmpty()) {
@@ -213,7 +200,7 @@ public class Store {
                return product;
            }
        }
-       return null; 
+       return null;
    }
 
 
